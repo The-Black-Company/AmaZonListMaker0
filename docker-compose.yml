@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    networks:
+      - amazonlistmaker_network
+  db:
+    image: "mysql:5.7"
+    environment:
+      MYSQL_ROOT_PASSWORD: toto42
+      MYSQL_DATABASE: amazonlistmaker
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - amazonlistmaker_network
+
+networks:
+  amazonlistmaker_network:
+    driver: bridge
